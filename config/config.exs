@@ -25,3 +25,18 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+
+config :dornach, :strftime,
+  day_of_week_names: fn day_of_week ->
+    {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"}
+    |> elem(day_of_week - 1)
+  end,
+  abbreviated_day_of_week_names: fn day_of_week ->
+    {"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"}
+    |> elem(day_of_week - 1)
+  end,
+  month_names: fn month ->
+    {"Jänner", "Feber", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober",
+     "November", "Dezember"}
+    |> elem(month - 1)
+  end

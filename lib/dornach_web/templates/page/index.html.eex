@@ -1,35 +1,34 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed or maintainability.</p>
-</section>
+<div class="columns calendar">
+  <div class="column is-two-thirds calendar">
+    <table class="table is-paddingless is-bordered is-fullwidth calendar">
+      <thead>
+        <tr>
+          <%= for weekday <- Enum.take(@dates, 7) do %>
+            <th class="has-text-right"><%= NimbleStrftime.format(weekday, "%a", Application.get_env(:dornach, :strftime)) %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for week <- Enum.chunk_every(@dates, 7) do %>
+          <tr>
+            <%= for date <- week do %>
+              <td class="is-paddingless">
+                <a class="button is-block is-radiusless has-text-right <%= unless same_month?(date, @date), do: "has-text-grey-light" %> <%= color(date) %>" href="/<%= NimbleStrftime.format(date, "%Y-%m-%d") %>">
+                  <%= NimbleStrftime.format(date, "%1d", Application.get_env(:dornach, :strftime)) %>
+                </a>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.4/CHANGELOG.md">v1.4 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-    </ul>
-  </article>
-</section>
+  <div class="column">
+    <div class="container content">
+      <h1 class="title"><%= NimbleStrftime.format(@date, "%d %B %Y", Application.get_env(:dornach, :strftime)) %></h1>
+      <p>Noch keine Termine eingetragen.</p>
+      <button class="button is-primary">Termin eintragen</button>
+    </div>
+  </div>
+</div>

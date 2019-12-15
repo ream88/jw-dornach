@@ -1,30 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
+
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Dornach · Phoenix Framework</title>
-    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>JW Dornach</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
+
   <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-          </ul>
-        </nav>
-        <a href="http://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
+    <header class="hero is-info">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            JW Dornach
+          </h1>
+          <h2 class="subtitle">
+            Trolleydienst Einteilung
+          </h2>
+        </div>
+      </div>
     </header>
-    <main role="main" class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= render @view_module, @view_template, assigns %>
+
+    <main class="section calendar">
+      <div class="container">
+        <%= render @view_module, @view_template, assigns %>
+      </div>
     </main>
+
+    <section class="section">
+      <div class="container">
+        <div class="content">
+          <h2 class="title">Anleitung</h2>
+          <p>Um einen Termin zu reservieren, bitte klicke +-Button an dem entsprechenden Tag.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="content has-text-centered is-small">
+        <p>
+          <strong>JW Dornach</strong> ist eine private Plattform für die Planung des Trolleydienstes der Versammlung Linz-Dornach und in keiner Weise mit jw.org verbunden.
+        </p>
+      </div>
+      <nav class="breadcrumb is-centered is-small has-bullet-separator">
+        <ul>
+          <li><a href="#">Impressum</a></li>
+          <li><a href="#">Datenschutzerklärung</a></li>
+        </ul>
+      </nav>
+    </footer>
+
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
+
 </html>

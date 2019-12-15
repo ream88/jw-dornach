@@ -1,0 +1,45 @@
+$info: #4c6ea5;
+
+@import "bulma";
+
+.section.calendar {
+  padding: 0;
+
+  @include tablet {
+    padding: 3rem 1.5rem;
+  }
+}
+
+.columns.calendar {
+  margin-left: 0;
+  margin-right: 0;
+
+  @include tablet {
+    margin-left: (-$column-gap);
+    margin-right: (-$column-gap);
+  }
+}
+
+.column.calendar {
+  padding: 0;
+
+  @include tablet {
+    padding: $column-gap;
+  }
+}
+
+table.calendar {
+  & td {
+    width: (100% / 7);
+  }
+
+  & td .button {
+    padding-left: $button-padding-horizontal / 2;
+    padding-right: $button-padding-horizontal / 2;
+
+    @include tablet {
+      padding-left: $button-padding-horizontal;
+      padding-right: $button-padding-horizontal;
+    }
+  }
+}
