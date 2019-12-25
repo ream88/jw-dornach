@@ -6,18 +6,12 @@ defmodule Dornach.Application do
   use Application
 
   def start(_type, _args) do
-    # List all child processes to be supervised
     children = [
-      # Start the endpoint when the application starts
+      Dornach.Calendar,
       DornachWeb.Endpoint
-      # Starts a worker by calling: Dornach.Worker.start_link(arg)
-      # {Dornach.Worker, arg},
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Dornach.Supervisor]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children, strategy: :one_for_one, name: Dornach.Supervisor)
   end
 
   # Tell Phoenix to update the endpoint configuration

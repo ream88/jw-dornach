@@ -40,7 +40,10 @@ defmodule Dornach.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
 
-      {:nimble_strftime, "~> 0.1.0"}
+      # Application
+      {:ecto, "~> 3.3"},
+      {:nimble_strftime, "~> 0.1.0"},
+      {:tzdata, "~> 1.0.1"}
     ]
   end
 end
