@@ -2,7 +2,7 @@ defmodule Dornach.GoogleCalendar do
   require Logger
 
   @api_key Application.fetch_env!(:dornach, :google_api_key)
-  @calendar_id "8k0kfnfhtbno2ck9m21lvj5s9k@group.calendar.google.com"
+  @calendar_id Application.fetch_env!(:dornach, :google_calendar_id)
 
   def find_events() do
     now = Date.utc_today()

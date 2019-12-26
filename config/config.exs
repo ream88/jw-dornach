@@ -40,6 +40,7 @@ config :dornach, :strftime,
   end
 
 config :dornach, :google_api_key, System.get_env() |> Map.fetch!("GOOGLE_API_KEY")
+config :dornach, :google_calendar_id, System.get_env() |> Map.fetch!("GOOGLE_CALENDAR_ID")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
