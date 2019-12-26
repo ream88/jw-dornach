@@ -1,7 +1,7 @@
 defmodule Dornach.GoogleCalendar do
   require Logger
 
-  @api_key "AIzaSyCRfFgaczvw5pqICR113DE1q8vqwiX4G0E"
+  @api_key Application.fetch_env!(:dornach, :google_api_key)
   @calendar_id "8k0kfnfhtbno2ck9m21lvj5s9k@group.calendar.google.com"
 
   def find_events() do

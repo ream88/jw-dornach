@@ -5,7 +5,8 @@ defmodule Dornach.Application do
 
   use Application
 
-  @env Mix.env() # Embed Mix.env into compiled app.
+  # Embed Mix.env into compiled app.
+  @env Mix.env()
 
   def start(_type, _args) do
     # Load initial events from Google Calendar on startup
