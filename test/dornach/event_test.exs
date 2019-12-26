@@ -34,7 +34,7 @@ defmodule Dornach.EventTest do
       %Event{}
       |> Event.changeset(attrs)
       |> Ecto.Changeset.apply_changes()
-      |> Calendar.add()
+      |> Calendar.add_event()
 
     changeset = Event.changeset(%Event{}, attrs)
     refute changeset.valid?

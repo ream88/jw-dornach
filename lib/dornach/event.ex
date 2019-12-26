@@ -33,7 +33,7 @@ defmodule Dornach.Event do
     from = fetch_field!(changeset, :from)
     to = fetch_field!(changeset, :to)
 
-    Calendar.events()
+    Calendar.get_events()
     |> Enum.reduce(changeset, fn event, changeset ->
       if overlap?({from, to}, {event.from, event.to}) do
         add_error(changeset, :from, "is overlapping")

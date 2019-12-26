@@ -9,6 +9,11 @@ defmodule Dornach.DataCase do
     end
   end
 
+  setup do
+    :ok = Application.stop(:dornach)
+    :ok = Application.ensure_started(:dornach)
+  end
+
   @doc """
   A helper that transforms changeset errors into a map of messages.
       assert {:error, changeset} = Accounts.create_user(%{password: "short"})
