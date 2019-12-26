@@ -1,4 +1,8 @@
 defmodule Dornach.GoogleCalendar do
+  @moduledoc """
+  A module which simplifies the API for Google Calendar.
+  """
+
   require Logger
 
   @api_key Application.fetch_env!(:dornach, :google_api_key)

@@ -1,4 +1,8 @@
 defmodule Dornach.Event do
+  @moduledoc """
+  The calendar event model.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
   alias Dornach.Calendar

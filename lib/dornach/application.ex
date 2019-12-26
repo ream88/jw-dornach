@@ -9,11 +9,9 @@ defmodule Dornach.Application do
   @env Mix.env()
 
   def start(_type, _args) do
-    # Load initial events from Google Calendar on startup
-    events = load_events(@env)
-
     children = [
-      {Dornach.Calendar, events},
+      # Load events from Google Calendar on startup
+      {Dornach.Calendar, load_events(@env)},
       DornachWeb.Endpoint
     ]
 

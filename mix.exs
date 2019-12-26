@@ -10,7 +10,8 @@ defmodule Dornach.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      dialyzer: [plt_add_deps: :transitive]
     ]
   end
 
@@ -46,7 +47,11 @@ defmodule Dornach.MixProject do
       {:google_api_calendar, "~> 0.13.0"},
       {:nimble_strftime, "~> 0.1.0"},
       {:timex, "~> 3.6"},
-      {:tzdata, "~> 1.0.1"}
+      {:tzdata, "~> 1.0.1"},
+
+      # Development
+      {:credo, "~> 1.1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
 end

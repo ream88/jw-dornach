@@ -1,4 +1,9 @@
 defmodule Dornach.Calendar do
+  @moduledoc """
+  A GenServer which is the source-of-truth for all calendar events handled by
+  Dornach.
+  """
+
   use GenServer
 
   defstruct events: []
@@ -23,12 +28,12 @@ defmodule Dornach.Calendar do
   end
 
   @impl true
-  def handle_call(:events, _from, state) do
-    {:reply, state.events, state}
+  def handle_call(:events, _from, %__MODULE__{events: events} = state) do
+    {:reply, events, state}
   end
 
   @impl true
-  def handle_call({:add, event}, _from, %{events: events} = state) do
+  def handle_call({:add, event}, _from, %__MODULE__{events: events} = state) do
     events = [event | events]
     {:reply, :ok, %{state | events: events}}
   end
