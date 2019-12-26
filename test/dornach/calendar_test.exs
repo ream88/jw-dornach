@@ -7,14 +7,4 @@ defmodule Dornach.CalendarTest do
     :ok = Calendar.add_event(event)
     assert [event] == Calendar.get_events()
   end
-
-  test "set_events (re)sets the list of events" do
-    events = [%Event{id: 1}, %Event{id: 2}]
-    :ok = Calendar.set_events(events)
-    assert events == Calendar.get_events()
-
-    events = [%Event{id: 1}]
-    :ok = Calendar.set_events(events)
-    assert events == Calendar.get_events()
-  end
 end

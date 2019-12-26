@@ -2,6 +2,7 @@ defmodule Dornach.Event do
   use Ecto.Schema
   import Ecto.Changeset
   alias Dornach.Calendar
+  alias GoogleApi.Calendar.V3.Model.Event, as: GoogleEvent
 
   embedded_schema do
     field :title, :string
@@ -65,5 +66,13 @@ defmodule Dornach.Event do
   """
   def overlap?({from, to}, {other_from, other_to}) do
     from < other_to && other_from < to
+  end
+
+  def from_google_event(%GoogleEvent{} = google_event) do
+    %__MODULE__{
+      title: google_event.summary,
+      from: google_event.start.dateTime,
+      to: google_event.end.dateTime
+    }
   end
 end

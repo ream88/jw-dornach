@@ -3,8 +3,8 @@ defmodule Dornach.Calendar do
 
   defstruct events: []
 
-  def start_link([]) do
-    GenServer.start_link(__MODULE__, [], name: __MODULE__)
+  def start_link(events) do
+    GenServer.start_link(__MODULE__, events, name: __MODULE__)
   end
 
   def get_events() do
@@ -15,15 +15,11 @@ defmodule Dornach.Calendar do
     GenServer.call(__MODULE__, {:add, event})
   end
 
-  def set_events(events) do
-    GenServer.call(__MODULE__, {:set, events})
-  end
-
   # GenServer API
 
   @impl true
-  def init(_) do
-    {:ok, %__MODULE__{}}
+  def init(events) do
+    {:ok, %__MODULE__{events: events}}
   end
 
   @impl true
@@ -34,11 +30,6 @@ defmodule Dornach.Calendar do
   @impl true
   def handle_call({:add, event}, _from, %{events: events} = state) do
     events = [event | events]
-    {:reply, :ok, %{state | events: events}}
-  end
-
-  @impl true
-  def handle_call({:set, events}, _from, state) do
     {:reply, :ok, %{state | events: events}}
   end
 end
