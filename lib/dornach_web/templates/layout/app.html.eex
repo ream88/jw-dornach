@@ -14,18 +14,20 @@
     <header class="hero is-info">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">
-            JW Dornach
-          </h1>
-          <h2 class="subtitle">
-            Trolleydienst Einteilung
-          </h2>
+          <a href="/">
+            <h1 class="title">
+              JW Dornach
+            </h1>
+            <h2 class="subtitle">
+              Trolleydienst Einteilung
+            </h2>
+          </a>
         </div>
       </div>
     </header>
 
     <main class="section calendar">
-      <div class="container">
+      <div class="container box">
         <%= render @view_module, @view_template, assigns %>
       </div>
     </main>

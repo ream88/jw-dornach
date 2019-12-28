@@ -5,6 +5,7 @@ defmodule Dornach.Calendar do
   """
 
   use GenServer
+  alias Dornach.Event
 
   defstruct events: []
 
@@ -14,6 +15,14 @@ defmodule Dornach.Calendar do
 
   def get_events() do
     GenServer.call(__MODULE__, :events)
+  end
+
+  def get_events(%Date{} = date) do
+    GenServer.call(__MODULE__, {:events, date, date})
+  end
+
+  def get_events(%Date{} = from, %Date{} = to) do
+    GenServer.call(__MODULE__, {:events, from, to})
   end
 
   def add_event(event) do
@@ -33,8 +42,20 @@ defmodule Dornach.Calendar do
   end
 
   @impl true
+  def handle_call({:events, from, to}, _from, %__MODULE__{events: events} = state) do
+    range = Date.range(from, to)
+
+    events =
+      Enum.filter(events, fn %Event{} = event ->
+        DateTime.to_date(event.from) in range or DateTime.to_date(event.to) in range
+      end)
+
+    {:reply, events, state}
+  end
+
+  @impl true
   def handle_call({:add, event}, _from, %__MODULE__{events: events} = state) do
-    events = [event | events]
+    events = events ++ [event]
     {:reply, :ok, %{state | events: events}}
   end
 end

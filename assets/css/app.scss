@@ -3,7 +3,7 @@ $info: #4c6ea5;
 @import "bulma";
 
 .section.calendar {
-  padding: 0;
+  padding: 3rem 0;
 
   @include tablet {
     padding: 3rem 1.5rem;
@@ -42,4 +42,18 @@ table.calendar {
       padding-right: $button-padding-horizontal;
     }
   }
+
+  & .has-border {
+    border-color: $danger;
+    box-shadow: inset 0 0 0 2px $danger;
+
+    &:hover {
+      border-color: $danger;
+    }
+  }
+}
+
+.columns.has-bottom-border {
+  margin-bottom: 1rem;
+  border-bottom: $table-cell-border;
 }

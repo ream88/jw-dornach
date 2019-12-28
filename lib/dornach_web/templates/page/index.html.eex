@@ -1,3 +1,34 @@
+<div class="columns">
+  <div class="column is-two-thirds">
+    <div class="columns is-mobile is-vcentered">
+
+      <div class="column is-narrow">
+        <a class="button" href="/<%= NimbleStrftime.format(first_day_of_previous_month(@date), "%Y-%m-%d") %>">
+          <span class="icon">
+            <i class="fas fa-chevron-left"></i>
+          </span>
+        </a>
+      </div>
+
+      <div class="column">
+        <h3 class="title is-4 has-text-centered">
+          <span class="has-text-weight-semibold"><%= NimbleStrftime.format(@date, "%B", Application.get_env(:dornach, :strftime)) %></span>
+          <span class="has-text-weight-normal"><%= NimbleStrftime.format(@date, "%Y", Application.get_env(:dornach, :strftime)) %></span>
+        </h3>
+      </div>
+
+      <div class="column is-narrow">
+        <a class="button is-borderless" href="/<%= NimbleStrftime.format(first_day_of_next_month(@date), "%Y-%m-%d") %>">
+          <span class="icon">
+            <i class="fas fa-chevron-right"></i>
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <div class="columns calendar">
   <div class="column is-two-thirds calendar">
     <table class="table is-paddingless is-bordered is-fullwidth calendar">
@@ -13,7 +44,7 @@
           <tr>
             <%= for date <- week do %>
               <td class="is-paddingless">
-                <a class="button is-block is-radiusless has-text-right <%= unless same_month?(date, @date), do: "has-text-grey-light" %> <%= color(date) %>" href="/<%= NimbleStrftime.format(date, "%Y-%m-%d") %>">
+                <a class="button is-block is-radiusless has-text-right <%= unless same_month?(date, @date), do: "has-text-grey-light" %> <%= color(date) %> <%= if @date == date, do: "has-border" %>" href="/<%= NimbleStrftime.format(date, "%Y-%m-%d") %>">
                   <%= NimbleStrftime.format(date, "%1d", Application.get_env(:dornach, :strftime)) %>
                 </a>
               </td>
@@ -25,10 +56,37 @@
   </div>
 
   <div class="column">
-    <div class="container content">
-      <h1 class="title"><%= NimbleStrftime.format(@date, "%d %B %Y", Application.get_env(:dornach, :strftime)) %></h1>
+    <% events = Dornach.Calendar.get_events(@date) %>
+
+    <%= if events == [] do %>
       <p>Noch keine Termine eingetragen.</p>
-      <button class="button is-primary">Termin eintragen</button>
-    </div>
+    <% else %>
+      <%= for event <- Enum.sort_by(events, &(&1.from)) do %>
+        <div class="columns is-mobile is-vcentered has-bottom-border">
+
+          <div class="column is-3">
+            <span class="tag is-info">
+              <%= NimbleStrftime.format(event.from, "%1H:%M") %> - <%= NimbleStrftime.format(event.to, "%1H:%M") %>
+            </span>
+          </div>
+
+          <div class="column">
+            <%= event.title %>
+          </div>
+
+          <div class="column is-narrow">
+            <a class="button is-danger is-small" href="/<%= NimbleStrftime.format(first_day_of_previous_month(@date), "%Y-%m-%d") %>">
+              <span class="icon">
+                <i class="fas fa-times"></i>
+              </span>
+              <span>Löschen</span>
+            </a>
+          </div>
+
+        </div>
+      <% end %>
+    <% end %>
+
+    <button class="button is-primary">Termin eintragen</button>
   </div>
 </div>

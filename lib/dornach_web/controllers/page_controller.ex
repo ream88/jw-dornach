@@ -15,7 +15,7 @@ defmodule DornachWeb.PageController do
 
     render(conn, "index.html",
       date: date,
-      dates: Date.range(PageView.first(date), PageView.last(date))
+      dates: Date.range(PageView.first_day_of_calendar(date), PageView.last_day_of_calendar(date))
     )
   end
 end
