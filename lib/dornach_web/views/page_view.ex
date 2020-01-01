@@ -108,9 +108,58 @@ defmodule DornachWeb.PageView do
       |> Enum.map(&DateTime.to_date/1)
 
     cond do
-      date == Date.utc_today() -> "is-light"
       date in events -> "is-primary"
+      date == Date.utc_today() -> "is-light"
       true -> "is-white"
     end
+  end
+
+  def times(date) do
+    for hour <- 0..23 do
+      for minute <- Enum.take_every(0..59, 15) do
+        {:ok, time} = Time.new(hour, minute, 0)
+        {:ok, naive} = NaiveDateTime.new(date, time)
+        {:ok, datetime} = DateTime.from_naive(naive, "Europe/Vienna")
+
+        datetime
+      end
+    end
+    |> List.flatten()
+  end
+
+  def from_select(form, date) do
+    options =
+      date
+      |> times()
+      |> Enum.map(fn datetime ->
+        {:ok, utc_datetime} = DateTime.shift_zone(datetime, "UTC")
+        [value: DateTime.to_iso8601(utc_datetime), key: NimbleStrftime.format(datetime, "%H:%M")]
+      end)
+
+    selected =
+      case Ecto.Changeset.fetch_field!(form.source, :from) do
+        nil -> nil
+        date -> DateTime.to_iso8601(date)
+      end
+
+    select(form, :from, options, selected: selected)
+  end
+
+  def to_select(form, date) do
+    options =
+      date
+      |> times()
+      |> Enum.map(fn datetime ->
+        {:ok, utc_datetime} = DateTime.shift_zone(datetime, "UTC")
+        [value: DateTime.to_iso8601(utc_datetime), key: NimbleStrftime.format(datetime, "%H:%M")]
+      end)
+
+    selected =
+      case Ecto.Changeset.fetch_field!(form.source, :to) do
+        nil -> nil
+        date -> DateTime.to_iso8601(date)
+      end
+
+    select(form, :to, options, selected: selected)
   end
 end

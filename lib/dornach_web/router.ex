@@ -18,6 +18,8 @@ defmodule DornachWeb.Router do
 
     get "/", PageController, :index
     get "/:date", PageController, :index
+    post "/", PageController, :create
+    post "/:date", PageController, :create
   end
 
   # Other scopes may use custom stacks.
