@@ -8,6 +8,8 @@ defmodule Dornach.Event do
   alias Dornach.Calendar
   alias GoogleApi.Calendar.V3.Model.Event, as: GoogleEvent
 
+  @type t :: %__MODULE__{title: String.t(), from: DateTime.t(), to: DateTime.t()}
+
   embedded_schema do
     field :title, :string
     field :from, :utc_datetime

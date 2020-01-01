@@ -100,7 +100,12 @@ defmodule DornachWeb.PageView do
   def color(date) do
     events =
       Dornach.Calendar.get_events()
-      |> Enum.map(fn %Dornach.Event{from: from} -> DateTime.to_date(from) end)
+      |> Enum.map(& &1.from)
+      |> Enum.map(fn datetime ->
+        {:ok, datetime} = DateTime.shift_zone(datetime, "Europe/Vienna")
+        datetime
+      end)
+      |> Enum.map(&DateTime.to_date/1)
 
     cond do
       date == Date.utc_today() -> "is-light"

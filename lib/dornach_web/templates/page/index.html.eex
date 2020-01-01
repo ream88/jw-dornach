@@ -56,7 +56,7 @@
   </div>
 
   <div class="column">
-    <% events = Dornach.Calendar.get_events(@date) %>
+    <% events = Dornach.Calendar.get_events(@date, "Europe/Vienna") %>
 
     <%= if events == [] do %>
       <p>Noch keine Termine eingetragen.</p>
@@ -66,7 +66,10 @@
 
           <div class="column is-3">
             <span class="tag is-info">
-              <%= NimbleStrftime.format(event.from, "%1H:%M") %> - <%= NimbleStrftime.format(event.to, "%1H:%M") %>
+              <% {:ok, from} = DateTime.shift_zone(event.from, "Europe/Vienna") %>
+              <% {:ok, to} = DateTime.shift_zone(event.to, "Europe/Vienna") %>
+
+              <%= NimbleStrftime.format(from, "%1H:%M") %> - <%= NimbleStrftime.format(to, "%1H:%M") %>
             </span>
           </div>
 

@@ -36,3 +36,6 @@ npm-debug.log
 # Ignore .env files
 *.env
 !.env.example
+
+# Ignore ElixirLS files.
+/.elixir_ls
