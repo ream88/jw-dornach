@@ -25,22 +25,13 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :dornach, :strftime,
-  day_of_week_names: fn day_of_week ->
-    {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"}
-    |> elem(day_of_week - 1)
-  end,
-  abbreviated_day_of_week_names: fn day_of_week ->
-    {"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"}
-    |> elem(day_of_week - 1)
-  end,
-  month_names: fn month ->
-    {"Jänner", "Feber", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober",
-     "November", "Dezember"}
-    |> elem(month - 1)
-  end
+  day_of_week_names: &NimbleStrftime.German.day_of_week_names/1,
+  abbreviated_day_of_week_names: &NimbleStrftime.German.abbreviated_day_of_week_names/1,
+  month_names: &NimbleStrftime.German.month_names/1
 
-config :dornach, :google_api_key, System.get_env() |> Map.fetch!("GOOGLE_API_KEY")
-config :dornach, :google_calendar_id, System.get_env() |> Map.fetch!("GOOGLE_CALENDAR_ID")
+config :dornach,
+  google_api_key: System.get_env("GOOGLE_API_KEY"),
+  google_calendar_id: System.get_env("GOOGLE_CALENDAR_ID")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
