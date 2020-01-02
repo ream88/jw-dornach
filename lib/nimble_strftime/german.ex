@@ -1,4 +1,8 @@
 defmodule NimbleStrftime.German do
+  @moduledoc """
+  (Austrian) German translations for NimbleStrftime.
+  """
+
   def day_of_week_names(day_of_week) do
     {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"}
     |> elem(day_of_week - 1)

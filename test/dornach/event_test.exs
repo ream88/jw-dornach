@@ -1,5 +1,5 @@
 defmodule Dornach.EventTest do
-  use Dornach.DataCase, async: true
+  use Dornach.CalendarCase, async: true
   alias Dornach.{Calendar, Event}
   doctest Event
 
@@ -42,9 +42,6 @@ defmodule Dornach.EventTest do
   end
 
   test "changeset is valid if proper attributes are given" do
-    :ok = Application.stop(:dornach)
-    {:ok, _} = Application.ensure_all_started(:dornach)
-
     attrs = %{title: "Ida & Mario", from: @nineoclock, to: @elevenoclock}
 
     changeset = Event.changeset(%Event{}, attrs)

@@ -12,7 +12,6 @@ defmodule DornachWeb.PageController do
     |> render("index.html", event: Event.changeset(%Event{}, %{}))
   end
 
-  @spec create(Plug.Conn.t(), nil | keyword | map) :: Plug.Conn.t()
   def create(conn, params) do
     event = Event.changeset(%Event{}, params["event"])
 

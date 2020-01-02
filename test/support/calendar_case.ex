@@ -1,4 +1,4 @@
-defmodule Dornach.DataCase do
+defmodule Dornach.CalendarCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -11,15 +11,19 @@ defmodule Dornach.DataCase do
 
   using do
     quote do
-      import Ecto
       import Ecto.Changeset
-      import Dornach.DataCase
+      import Dornach.CalendarCase
     end
   end
 
-  setup do
-    :ok = Application.stop(:dornach)
-    :ok = Application.ensure_started(:dornach)
+  setup :reset_calendar_state
+
+  def reset_calendar_state(_) do
+    Dornach.Calendar
+    |> Process.whereis()
+    |> :sys.replace_state(fn _ -> %Dornach.Calendar{} end)
+
+    :ok
   end
 
   @doc """
