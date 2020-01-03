@@ -34,12 +34,17 @@
 
     <section class="section">
       <div class="container">
-        <div class="content">
-          <h2 class="title">Anleitung</h2>
-          <p>
-            Um einen Termin zu einzutragen, wähle bitte zuerst ein Datum aus. Trage dann deinen Namen und den Namen deines Partners ein, und wähle die Uhrzeit aus von wann bis wann du den Trolleydienst geplant hast.
-            Mit einem Klick auf <strong>Termin eintragen</strong> wird deine Eingabe dann gespeichert.
-          </p>
+        <div class="columns">
+          <div class="column is-two-thirds content">
+            <h2 class="title">Anleitung</h2>
+            <p>
+              Um einen Termin einzutragen, wähle bitte zuerst einen Tag im
+              Kalendar aus. Trage dann deinen Namen und den Namen deines Partners
+              ein, und wähle die Uhrzeit aus von wann bis wann du den
+              Trolleydienst geplant hast. Mit einem Klick auf <strong>Termin
+                eintragen</strong> wird deine Eingabe dann gespeichert.
+            </p>
+          </div>
         </div>
       </div>
     </section>
