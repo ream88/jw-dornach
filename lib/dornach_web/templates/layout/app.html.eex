@@ -36,7 +36,10 @@
       <div class="container">
         <div class="content">
           <h2 class="title">Anleitung</h2>
-          <p>Um einen Termin zu reservieren, bitte klicke +-Button an dem entsprechenden Tag.</p>
+          <p>
+            Um einen Termin zu einzutragen, wähle bitte zuerst ein Datum aus. Trage dann deinen Namen und den Namen deines Partners ein, und wähle die Uhrzeit aus von wann bis wann du den Trolleydienst geplant hast.
+            Mit einem Klick auf <strong>Termin eintragen</strong> wird deine Eingabe dann gespeichert.
+          </p>
         </div>
       </div>
     </section>
@@ -44,7 +47,9 @@
     <footer class="footer">
       <div class="content has-text-centered is-small">
         <p>
-          <strong>JW Dornach</strong> ist eine private Plattform für die Planung des Trolleydienstes der Versammlung Linz-Dornach und in keiner Weise mit jw.org verbunden.
+          <strong>JW Dornach</strong> ist eine private Plattform für die Planung
+          des Trolleydienstes der Versammlung Linz-Dornach und in keiner Weise
+          mit jw.org verbunden.
         </p>
       </div>
       <nav class="breadcrumb is-centered is-small has-bullet-separator">

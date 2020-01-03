@@ -127,39 +127,40 @@ defmodule DornachWeb.PageView do
     |> List.flatten()
   end
 
-  def from_select(form, date) do
+  def from_select(form, date, opts \\ []) do
     options =
       date
       |> times()
       |> Enum.map(fn datetime ->
         {:ok, utc_datetime} = DateTime.shift_zone(datetime, "UTC")
-        [value: DateTime.to_iso8601(utc_datetime), key: NimbleStrftime.format(datetime, "%H:%M")]
+        {NimbleStrftime.format(datetime, "%H:%M"), DateTime.to_iso8601(utc_datetime)}
       end)
 
-    selected =
-      case Ecto.Changeset.fetch_field!(form.source, :from) do
-        nil -> nil
-        date -> DateTime.to_iso8601(date)
-      end
-
-    select(form, :from, options, selected: selected)
+    value = local_datetime_value(form, :from)
+    select(form, :from, options, Keyword.merge([value: value], opts))
   end
 
-  def to_select(form, date) do
+  def to_select(form, date, opts \\ []) do
     options =
       date
       |> times()
       |> Enum.map(fn datetime ->
         {:ok, utc_datetime} = DateTime.shift_zone(datetime, "UTC")
-        [value: DateTime.to_iso8601(utc_datetime), key: NimbleStrftime.format(datetime, "%H:%M")]
+        {NimbleStrftime.format(datetime, "%H:%M"), DateTime.to_iso8601(utc_datetime)}
       end)
 
-    selected =
-      case Ecto.Changeset.fetch_field!(form.source, :to) do
-        nil -> nil
-        date -> DateTime.to_iso8601(date)
-      end
+    value = local_datetime_value(form, :to)
+    select(form, :to, options, Keyword.merge([value: value], opts))
+  end
 
-    select(form, :to, options, selected: selected)
+  defp local_datetime_value(form, field) do
+    case Ecto.Changeset.fetch_field!(form.source, field) do
+      nil ->
+        nil
+
+      datetime ->
+        {:ok, utc_datetime} = DateTime.shift_zone(datetime, "UTC")
+        DateTime.to_iso8601(utc_datetime)
+    end
   end
 end

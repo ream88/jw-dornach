@@ -52,7 +52,10 @@ defmodule Dornach.MixProject do
 
       # Development
       {:credo, "~> 1.1.0", only: [:dev], runtime: false},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+
+      # Testing
+      {:floki, "~> 0.24.0", only: [:dev, :test]}
     ]
   end
 end

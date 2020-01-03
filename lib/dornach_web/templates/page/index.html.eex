@@ -3,7 +3,7 @@
     <div class="columns is-mobile is-vcentered">
 
       <div class="column is-narrow">
-        <a class="button" href="/<%= NimbleStrftime.format(first_day_of_previous_month(@date), "%Y-%m-%d") %>">
+        <a class="button" href="/<%= NimbleStrftime.format(first_day_of_previous_month(@current_date), "%Y-%m-%d") %>">
           <span class="icon">
             <i class="fas fa-chevron-left"></i>
           </span>
@@ -12,13 +12,13 @@
 
       <div class="column">
         <h3 class="title is-4 has-text-centered">
-          <span class="has-text-weight-semibold"><%= NimbleStrftime.format(@date, "%B", Application.get_env(:dornach, :strftime)) %></span>
-          <span class="has-text-weight-normal"><%= NimbleStrftime.format(@date, "%Y", Application.get_env(:dornach, :strftime)) %></span>
+          <span class="has-text-weight-semibold"><%= NimbleStrftime.format(@current_date, "%B", Application.get_env(:dornach, :strftime)) %></span>
+          <span class="has-text-weight-normal"><%= NimbleStrftime.format(@current_date, "%Y", Application.get_env(:dornach, :strftime)) %></span>
         </h3>
       </div>
 
       <div class="column is-narrow">
-        <a class="button is-borderless" href="/<%= NimbleStrftime.format(first_day_of_next_month(@date), "%Y-%m-%d") %>">
+        <a class="button is-borderless" href="/<%= NimbleStrftime.format(first_day_of_next_month(@current_date), "%Y-%m-%d") %>">
           <span class="icon">
             <i class="fas fa-chevron-right"></i>
           </span>
@@ -44,7 +44,7 @@
           <tr>
             <%= for date <- week do %>
               <td class="is-paddingless">
-                <a class="button is-block is-radiusless has-text-right <%= unless same_month?(date, @date), do: "has-text-grey-light" %> <%= color(date) %> <%= if @date == date, do: "has-border" %>" href="/<%= NimbleStrftime.format(date, "%Y-%m-%d") %>">
+                <a class="button is-block is-radiusless has-text-right <%= unless same_month?(date, @current_date), do: "has-text-grey-light" %> <%= color(date) %> <%= if @current_date == date, do: "has-border" %>" href="/<%= NimbleStrftime.format(date, "%Y-%m-%d") %>">
                   <%= NimbleStrftime.format(date, "%1d", Application.get_env(:dornach, :strftime)) %>
                 </a>
               </td>
@@ -56,19 +56,12 @@
   </div>
 
   <div class="column">
-
-    <% events = Dornach.Calendar.get_events(@date, "Europe/Vienna") %>
-
-    <%= for {_key, message} <- get_flash(@conn) do %>
-      <div class="message is-danger">
-        <p class="message-body">
-          <%= message %>
-        </p>
-      </div>
-    <% end %>
+    <% events = Dornach.Calendar.get_events(@current_date, "Europe/Vienna") %>
 
     <%= if events == [] do %>
-      <p>Noch keine Termine eingetragen.</p>
+      <h4 class="title is-6">
+        Noch keine Termine eingetragen.
+      </h4>
     <% else %>
       <%= for event <- Enum.sort_by(events, &(&1.from)) do %>
         <div class="columns is-mobile is-vcentered has-bottom-border">
@@ -99,23 +92,39 @@
       <% end %>
     <% end %>
 
-    <%= form_for @event, Routes.page_path(@conn, :create, Date.to_iso8601(@date)), fn form -> %>
+    <%= case get_flash(@conn) do %>
+      <% %{"error" => :invalid} -> %>
+      <div class="message is-danger">
+        <p class="message-body">
+          Bitte überprüfe deine Eingaben!
+        </p>
+      </div>
+      <% %{"notice" => :ok} -> %>
+      <div class="message is-primary">
+        <p class="message-body">
+          Dein Termin wurde eingetragen!
+        </p>
+      </div>
+      <% _ -> %>
+    <% end %>
+
+    <%= form_for @event, Routes.page_path(@conn, :create, Date.to_iso8601(@current_date)), fn form -> %>
 
     <div class="field">
       <p class="control is-expanded">
-        <%= text_input form, :title, class: "input", placeholder: "Name" %>
+        <%= text_input form, :title, class: "input #{if form.errors[:title], do: "is-danger"}", placeholder: "Name" %>
       </p>
     </div>
 
     <div class="field is-grouped">
       <p class="control is-expanded">
-        <span class="select is-fullwidth">
-          <%= from_select form, @date %>
+        <span class="select is-fullwidth <%= if form.errors[:from], do: "is-danger" %>">
+          <%= from_select form, @current_date %>
         </span>
       </p>
       <p class="control is-expanded">
-        <span class="select is-fullwidth">
-          <%= to_select form, @date %>
+        <span class="select is-fullwidth <%= if form.errors[:to], do: "is-danger" %>">
+          <%= to_select form, @current_date %>
         </span>
       </p>
     </div>
