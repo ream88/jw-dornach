@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>JW Dornach</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+
+    <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="<%= Routes.static_path(@conn, "/images/logo.png") %>" />
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= Routes.static_path(@conn, "/images/favicon-32x32.png") %>" />
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= Routes.static_path(@conn, "/images/favicon-16x16.png") %>" />
+
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
 
