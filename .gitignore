@@ -39,3 +39,6 @@ npm-debug.log
 
 # Ignore ElixirLS files.
 /.elixir_ls
+
+# Ignore all service keys.
+/jw-dornach-*.json

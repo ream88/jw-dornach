@@ -29,9 +29,9 @@ config :dornach, :strftime,
   abbreviated_day_of_week_names: &NimbleStrftime.German.abbreviated_day_of_week_names/1,
   month_names: &NimbleStrftime.German.month_names/1
 
-config :dornach,
-  google_api_key: System.get_env("GOOGLE_API_KEY"),
-  google_calendar_id: System.get_env("GOOGLE_CALENDAR_ID")
+config :dornach, google_calendar_id: {:system, "GOOGLE_CALENDAR_ID"}
+
+config :goth, json: {:system, "GOOGLE_APPLICATION_CREDENTIALS"}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

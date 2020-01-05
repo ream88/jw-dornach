@@ -5,9 +5,6 @@ defmodule Dornach.GoogleCalendar do
 
   require Logger
 
-  @api_key Application.fetch_env!(:dornach, :google_api_key)
-  @calendar_id Application.fetch_env!(:dornach, :google_calendar_id)
-
   def find_events() do
     now = Date.utc_today()
     from = now |> Timex.beginning_of_month()
@@ -24,17 +21,37 @@ defmodule Dornach.GoogleCalendar do
     from = from |> Timex.to_datetime() |> Timex.beginning_of_day()
     to = to |> Timex.to_datetime() |> Timex.end_of_day()
 
-    conn = GoogleApi.Calendar.V3.Connection.new()
-
-    Logger.debug("Searching Google Calendar events between #{from} and #{to}")
+    Logger.debug("Looking for Google Calendar events between #{from} and #{to}")
 
     {:ok, events} =
-      GoogleApi.Calendar.V3.Api.Events.calendar_events_list(conn, @calendar_id,
-        key: @api_key,
+      GoogleApi.Calendar.V3.Api.Events.calendar_events_list(conn(), calendar_id(),
         timeMin: DateTime.to_iso8601(from),
         timeMax: DateTime.to_iso8601(to)
       )
 
     events.items
+  end
+
+  def create_event(%GoogleApi.Calendar.V3.Model.Event{} = event) do
+    Logger.debug(
+      "Creating Google Calendar event #{inspect(event.summary)} on #{event.start.dateTime}"
+    )
+
+    {:ok, event} =
+      GoogleApi.Calendar.V3.Api.Events.calendar_events_insert(conn(), calendar_id(), body: event)
+
+    event
+  end
+
+  defp conn() do
+    {:ok, %{token: token}} = Goth.Token.for_scope("https://www.googleapis.com/auth/calendar")
+    GoogleApi.Calendar.V3.Connection.new(token)
+  end
+
+  defp calendar_id() do
+    case Application.fetch_env!(:dornach, :google_calendar_id) do
+      {:system, env_var} -> System.get_env(env_var)
+      calendar_id -> calendar_id
+    end
   end
 end

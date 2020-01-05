@@ -7,6 +7,7 @@ defmodule Dornach.Event do
   import Ecto.Changeset
   alias Dornach.Calendar
   alias GoogleApi.Calendar.V3.Model.Event, as: GoogleEvent
+  alias GoogleApi.Calendar.V3.Model.EventDateTime, as: GoogleDateTime
 
   @type t :: %__MODULE__{title: String.t(), from: DateTime.t(), to: DateTime.t()}
 
@@ -74,11 +75,21 @@ defmodule Dornach.Event do
     from < other_to && other_from < to
   end
 
+  @spec from_google_event(GoogleEvent.t()) :: t()
   def from_google_event(%GoogleEvent{} = google_event) do
     %__MODULE__{
       title: google_event.summary,
       from: google_event.start.dateTime,
       to: google_event.end.dateTime
+    }
+  end
+
+  @spec to_google_event(Dornach.Event.t()) :: GoogleEvent.t()
+  def to_google_event(%__MODULE__{} = event) do
+    %GoogleEvent{
+      summary: event.title,
+      start: %GoogleDateTime{dateTime: event.from},
+      end: %GoogleDateTime{dateTime: event.to}
     }
   end
 end

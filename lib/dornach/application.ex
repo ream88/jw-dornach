@@ -8,10 +8,12 @@ defmodule Dornach.Application do
   # Embed Mix.env into compiled app.
   @env Mix.env()
 
+  def env(), do: @env
+
   def start(_type, _args) do
     children = [
       # Load events from Google Calendar on startup
-      {Dornach.Calendar, load_events(@env)},
+      {Dornach.Calendar, load_events(env())},
       DornachWeb.Endpoint
     ]
 

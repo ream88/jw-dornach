@@ -46,6 +46,7 @@ defmodule Dornach.MixProject do
       # Application
       {:ecto, "~> 3.3"},
       {:google_api_calendar, "~> 0.13.0"},
+      {:goth, "~> 1.2"},
       {:nimble_strftime, "~> 0.1.0"},
       {:timex, "~> 3.6"},
       {:tzdata, "~> 1.0.1"},

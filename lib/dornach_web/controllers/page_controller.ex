@@ -1,7 +1,7 @@
 defmodule DornachWeb.PageController do
   use DornachWeb, :controller
   alias DornachWeb.PageView
-  alias Dornach.{Calendar, Event}
+  alias Dornach.{Calendar, Event, GoogleCalendar}
 
   plug :assign_current_date
   plug :assign_calendar_dates
@@ -17,9 +17,13 @@ defmodule DornachWeb.PageController do
     event = Event.changeset(%Event{}, Map.get(params, "event", %{}))
 
     if event.valid? do
-      event
-      |> Ecto.Changeset.apply_changes()
-      |> Calendar.add_event()
+      event = Ecto.Changeset.apply_changes(event)
+      :ok = Calendar.add_event(event)
+
+      # TODO: There is probably a better way to do this, like using bypass.
+      if Dornach.Application.env() != :test do
+        event |> Event.to_google_event() |> GoogleCalendar.create_event()
+      end
 
       conn
       |> put_flash(:notice, :ok)
