@@ -14,7 +14,8 @@ config :dornach, DornachWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "ol2Bkka4ksqVlcZgk8m1daKdx2PXnbZTad5r7Od6SxVHxUIpjWLaD660fqUOhtNv",
   render_errors: [view: DornachWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Dornach.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Dornach.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [signing_salt: "fV2GRh3mW1Ou1fAqcDz2Ym94+JbU3SXc"]
 
 # Configures Elixir's Logger
 config :logger, :console,

@@ -10,11 +10,12 @@ defmodule DornachWeb.PageController do
 
   def index(conn, _params) do
     conn
-    |> render("index.html", event: Event.changeset(%Event{}, %{}))
+    |> assign(:event, Event.changeset(%Event{}, %{}))
+    |> render("index.html")
   end
 
-  def create(conn, params) do
-    event = Event.changeset(%Event{}, Map.get(params, "event", %{}))
+  def create(conn, %{"event" => params}) do
+    event = Event.changeset(%Event{}, params)
 
     if event.valid? do
       event = Ecto.Changeset.apply_changes(event)
@@ -29,10 +30,9 @@ defmodule DornachWeb.PageController do
       |> put_flash(:notice, :ok)
       |> redirect(to: Routes.page_path(conn, :index, Date.to_iso8601(conn.assigns.current_date)))
     else
-      # https://elixirforum.com/t/phoenix-why-not-show-changeset-errors/996/2
-      event = %{event | action: :insert}
-
       conn
+      # https://elixirforum.com/t/phoenix-why-not-show-changeset-errors/996/2
+      |> assign(:event, %{event | action: :insert})
       |> put_flash(:error, :invalid)
       |> put_status(:unprocessable_entity)
       |> render("index.html", event: event)

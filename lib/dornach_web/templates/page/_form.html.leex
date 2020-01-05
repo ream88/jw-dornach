@@ -1,0 +1,23 @@
+<%= form_for @event, Routes.page_path(@socket, :create, Date.to_iso8601(@current_date)), [phx_change: :change, csrf_token: @csrf_token], fn form -> %>
+
+<div class="field">
+  <p class="control is-expanded">
+    <%= text_input form, :title, class: "input #{if form.errors[:title], do: "is-danger"}", placeholder: "Name" %>
+  </p>
+</div>
+
+<div class="field is-grouped">
+  <p class="control is-expanded column is-6 is-paddingless">
+    <span class="select is-fullwidth <%= if form.errors[:from], do: "is-danger" %>">
+      <%= from_select form, @current_date %>
+    </span>
+  </p>
+  <p class="control is-expanded column is-6 is-paddingless">
+    <span class="select is-fullwidth <%= if form.errors[:to], do: "is-danger" %>">
+      <%= to_select form, @current_date %>
+    </span>
+  </p>
+</div>
+
+<button class="button is-primary">Termin eintragen</button>
+<% end %>
