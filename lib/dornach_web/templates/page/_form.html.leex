@@ -9,12 +9,12 @@
 <div class="field is-grouped">
   <p class="control is-expanded column is-6 is-paddingless">
     <span class="select is-fullwidth <%= if form.errors[:from], do: "is-danger" %>">
-      <%= from_select form, @current_date %>
+      <%= select form, :from, from_options(form, @current_date) %>
     </span>
   </p>
   <p class="control is-expanded column is-6 is-paddingless">
     <span class="select is-fullwidth <%= if form.errors[:to], do: "is-danger" %>">
-      <%= to_select form, @current_date %>
+      <%= select form, :to, to_options(form, @current_date) %>
     </span>
   </p>
 </div>

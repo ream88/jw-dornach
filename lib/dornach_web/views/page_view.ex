@@ -1,5 +1,6 @@
 defmodule DornachWeb.PageView do
   use DornachWeb, :view
+  import DornachWeb.SelectHelpers
 
   @doc """
   Returns the first day for a calendar. As this calendar always starts with a
@@ -111,93 +112,6 @@ defmodule DornachWeb.PageView do
       date in events -> "is-primary"
       date == Date.utc_today() -> "is-light"
       true -> "is-white"
-    end
-  end
-
-  defp times(date) do
-    for hour <- 0..23 do
-      for minute <- Enum.take_every(0..59, 15) do
-        {:ok, time} = Time.new(hour, minute, 0)
-        {:ok, naive} = NaiveDateTime.new(date, time)
-        {:ok, datetime} = DateTime.from_naive(naive, "Europe/Vienna")
-        {:ok, utc_datetime} = DateTime.shift_zone(datetime, "UTC")
-
-        {utc_datetime, datetime}
-      end
-    end
-    |> List.flatten()
-  end
-
-  def from_select(form, date, opts \\ []) do
-    options =
-      date
-      |> times()
-      |> Enum.map(fn {utc_datetime, datetime} ->
-        {NimbleStrftime.format(datetime, "%H:%M"), DateTime.to_iso8601(utc_datetime)}
-      end)
-
-    value = local_datetime_value(form, :from)
-    select(form, :from, options, Keyword.merge([value: value], opts))
-  end
-
-  def to_select(form, date, opts \\ []) do
-    from =
-      case Ecto.Changeset.fetch_field!(form.source, :from) do
-        nil ->
-          {:ok, time} = Time.new(0, 0, 0)
-          {:ok, naive} = NaiveDateTime.new(date, time)
-          {:ok, datetime} = DateTime.from_naive(naive, "Europe/Vienna")
-
-          datetime
-
-        from ->
-          from
-      end
-
-    options =
-      date
-      |> times()
-      |> Enum.filter(fn {utc_datetime, _datetime} ->
-        case from do
-          nil -> true
-          from -> DateTime.compare(from, utc_datetime) == :lt
-        end
-      end)
-      |> Enum.map(fn {utc_datetime, datetime} ->
-        value =
-          NimbleStrftime.format(datetime, "%H:%M") <>
-            " – " <> duration_in_hours(from, utc_datetime) <> " h"
-
-        {value, DateTime.to_iso8601(utc_datetime)}
-      end)
-
-    value = local_datetime_value(form, :to)
-    select(form, :to, options, Keyword.merge([value: value], opts))
-  end
-
-  defp duration_in_hours(from, to) do
-    diff = DateTime.diff(to, from, :second)
-
-    case {div(diff, 3600), rem(diff, 3600)} do
-      {0, 900} -> "¼"
-      {0, 1800} -> "½"
-      {0, 2700} -> "¾"
-      {quotient, 0} -> to_string(quotient)
-      {quotient, 900} -> to_string(quotient) <> " ¼"
-      {quotient, 1800} -> to_string(quotient) <> " ½"
-      {quotient, 2700} -> to_string(quotient) <> " ¾"
-      _ -> ""
-    end
-  end
-
-  defp local_datetime_value(form, field) do
-    case Ecto.Changeset.fetch_field!(form.source, field) do
-      nil ->
-        nil
-
-      datetime ->
-        {:ok, utc_datetime} = DateTime.shift_zone(datetime, "UTC")
-        DateTime.to_iso8601(utc_datetime)
     end
   end
 end
