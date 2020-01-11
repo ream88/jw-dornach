@@ -15,10 +15,10 @@ defmodule DornachWeb.PageController do
   end
 
   def create(conn, %{"event" => params}) do
-    event = Event.changeset(%Event{}, params)
+    changeset = Event.changeset(%Event{}, params)
 
-    if event.valid? do
-      event = Ecto.Changeset.apply_changes(event)
+    if changeset.valid? do
+      event = Ecto.Changeset.apply_changes(changeset)
       :ok = Calendar.add_event(event)
 
       # TODO: There is probably a better way to do this, like using bypass.
@@ -32,10 +32,10 @@ defmodule DornachWeb.PageController do
     else
       conn
       # https://elixirforum.com/t/phoenix-why-not-show-changeset-errors/996/2
-      |> assign(:event, %{event | action: :insert})
+      |> assign(:event, %{changeset | action: :insert})
       |> put_flash(:error, :invalid)
       |> put_status(:unprocessable_entity)
-      |> render("index.html", event: event)
+      |> render("index.html")
     end
   end
 

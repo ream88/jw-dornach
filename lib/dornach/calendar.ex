@@ -19,7 +19,7 @@ defmodule Dornach.Calendar do
   end
 
   @spec get_events(Date.t(), String.t()) :: [Event.t()]
-  def get_events(%Date{} = date, zone \\ "Europe/Vienna") do
+  def get_events(%Date{} = date, zone \\ "UTC") do
     GenServer.call(__MODULE__, {:events, date, zone})
   end
 
@@ -52,8 +52,7 @@ defmodule Dornach.Calendar do
 
     events =
       Enum.filter(events, fn event ->
-        Timex.between?(event.from, from, to, inclusive: :start) &&
-          Timex.between?(event.to, from, to, inclusive: :start)
+        Timex.between?(event.from, from, to) || Timex.between?(event.to, from, to)
       end)
 
     {:reply, events, state}
