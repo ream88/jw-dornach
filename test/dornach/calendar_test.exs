@@ -56,4 +56,20 @@ defmodule Dornach.CalendarTest do
       assert [third] == Calendar.get_events(~D[2019-12-27], "US/Hawaii")
     end
   end
+
+  describe "set_events" do
+    test "overrides all events" do
+      [first, second, third] = [
+        %Event{from: ~U[2019-12-26 09:00:00Z], to: ~U[2019-12-26 11:00:00Z]},
+        %Event{from: ~U[2019-12-26 23:00:00Z], to: ~U[2019-12-27 01:00:00Z]},
+        %Event{from: ~U[2019-12-28 09:00:00Z], to: ~U[2019-12-28 11:00:00Z]}
+      ]
+
+      Calendar.add_event(first)
+      assert [first] == Calendar.get_events()
+
+      Calendar.set_events([second, third])
+      assert [second, third] == Calendar.get_events()
+    end
+  end
 end

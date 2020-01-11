@@ -12,22 +12,25 @@ defmodule Dornach.Application do
 
   def start(_type, _args) do
     children = [
-      # Load events from Google Calendar on startup
-      {Dornach.Calendar, load_events(env())},
+      Dornach.Calendar,
+      {Dornach.Refresh, load_events(env())},
       DornachWeb.Endpoint
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Dornach.Supervisor)
   end
 
-  def load_events(:test), do: []
+  def load_events(:test), do: fn -> nil end
 
   def load_events(_) do
-    from = Date.utc_today() |> Timex.beginning_of_month()
-    to = Date.utc_today() |> Date.add(180) |> Timex.end_of_month()
+    fn ->
+      from = Date.utc_today() |> Timex.beginning_of_month()
+      to = Date.utc_today() |> Date.add(180) |> Timex.end_of_month()
 
-    Dornach.GoogleCalendar.find_events(from, to)
-    |> Enum.map(&Dornach.Event.from_google_event/1)
+      Dornach.GoogleCalendar.find_events(from, to)
+      |> Enum.map(&Dornach.Event.from_google_event/1)
+      |> Dornach.Calendar.set_events()
+    end
   end
 
   # Tell Phoenix to update the endpoint configuration

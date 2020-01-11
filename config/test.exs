@@ -10,3 +10,5 @@ config :dornach, DornachWeb.Endpoint,
 config :logger, level: :warn
 
 config :goth, disabled: true
+
+config :dornach, :refresh_interval, 1
