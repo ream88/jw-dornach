@@ -26,7 +26,7 @@ defmodule DornachWeb.PageControllerTest do
   end
 
   test "POST /2020-01-02", %{conn: conn} do
-    conn = post(conn, "/2020-01-02", %{})
+    conn = post(conn, "/2020-01-02", %{"event" => %{"title" => "", "from" => "", "to" => ""}})
 
     assert html_response(conn, 422) =~ "Bitte überprüfe deine Eingaben!"
 
