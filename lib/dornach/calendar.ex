@@ -5,6 +5,7 @@ defmodule Dornach.Calendar do
   """
 
   use GenServer
+  require Logger
   alias Dornach.Event
 
   defstruct events: []
@@ -23,9 +24,9 @@ defmodule Dornach.Calendar do
     GenServer.call(__MODULE__, {:events, date, zone})
   end
 
-  @spec add_event(Event.t()) :: :ok
-  def add_event(event) do
-    GenServer.call(__MODULE__, {:add, event})
+  @spec add_event(Event.t(), (Event.t() -> :ok | {:error, any()})) :: :ok
+  def add_event(event, callback \\ fn _ -> :ok end) do
+    GenServer.call(__MODULE__, {:add, event, callback})
   end
 
   # GenServer API
@@ -59,8 +60,14 @@ defmodule Dornach.Calendar do
   end
 
   @impl true
-  def handle_call({:add, event}, _from, %__MODULE__{events: events} = state) do
-    events = events ++ [event]
-    {:reply, :ok, %{state | events: events}}
+  def handle_call({:add, event, callback}, _from, %__MODULE__{events: events} = state) do
+    case callback.(event) do
+      :ok ->
+        {:reply, :ok, %{state | events: events ++ [event]}}
+
+      {:error, reason} ->
+        Logger.warn("Could not add event for reason: #{inspect(reason)}")
+        {:reply, :ok, state}
+    end
   end
 end

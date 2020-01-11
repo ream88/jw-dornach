@@ -19,12 +19,14 @@ defmodule DornachWeb.PageController do
 
     if changeset.valid? do
       event = Ecto.Changeset.apply_changes(changeset)
-      :ok = Calendar.add_event(event)
 
-      # TODO: There is probably a better way to do this, like using bypass.
-      if Dornach.Application.env() != :test do
-        event |> Event.to_google_event() |> GoogleCalendar.create_event()
-      end
+      Calendar.add_event(event, fn event ->
+        # TODO: There is probably a better way to do this, like using bypass.
+        case Dornach.Application.env() do
+          :test -> :ok
+          _ -> event |> Event.to_google_event() |> GoogleCalendar.create_event()
+        end
+      end)
 
       conn
       |> put_flash(:notice, :ok)

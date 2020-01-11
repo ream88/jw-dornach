@@ -2,10 +2,33 @@ defmodule Dornach.CalendarTest do
   use Dornach.CalendarCase, async: false
   alias Dornach.{Calendar, Event}
 
-  test "add_event adds a new event to the list of events" do
-    event = %Event{}
-    :ok = Calendar.add_event(event)
-    assert [event] == Calendar.get_events()
+  describe "add_event" do
+    test "adds a new event to the list of events" do
+      event = %Event{}
+      :ok = Calendar.add_event(event)
+      assert [event] == Calendar.get_events()
+    end
+
+    test "runs the given callback before returning" do
+      pid = self()
+
+      callback = fn event ->
+        send(pid, {:callback, event})
+        :ok
+      end
+
+      event = %Event{}
+      :ok = Calendar.add_event(event, callback)
+
+      assert_received {:callback, event}
+    end
+
+    @tag capture_log: true
+    test "does not explode when the gicen callback fails" do
+      :ok = Calendar.add_event(%Event{}, fn _ -> {:error, "boom"} end)
+
+      assert [] == Calendar.get_events()
+    end
   end
 
   describe "get_events" do
