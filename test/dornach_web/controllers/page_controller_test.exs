@@ -1,4 +1,5 @@
 defmodule DornachWeb.PageControllerTest do
+  use Dornach.CalendarCase, async: false
   use DornachWeb.ConnCase
 
   defp has_class?(html, class) do

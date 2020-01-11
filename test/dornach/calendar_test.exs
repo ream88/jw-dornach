@@ -1,5 +1,5 @@
 defmodule Dornach.CalendarTest do
-  use Dornach.CalendarCase, async: true
+  use Dornach.CalendarCase, async: false
   alias Dornach.{Calendar, Event}
 
   test "add_event adds a new event to the list of events" do

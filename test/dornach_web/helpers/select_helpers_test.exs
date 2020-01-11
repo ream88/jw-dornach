@@ -1,5 +1,5 @@
 defmodule DornachWeb.SelectHelpersTest do
-  use Dornach.CalendarCase, async: true
+  use Dornach.CalendarCase, async: false
   alias Dornach.{Calendar, Event}
   alias DornachWeb.SelectHelpers
 
