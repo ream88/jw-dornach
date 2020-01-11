@@ -1,4 +1,4 @@
-# Dornach
+# Dornach ![](https://img.shields.io/github/workflow/status/ream88/jw-dornach/CI)
 
 A Elixir app which helps to organize the cart service of the Linz-Dornach
 congregation of Jehovah's Witnesses.
