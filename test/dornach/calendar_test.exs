@@ -44,15 +44,15 @@ defmodule Dornach.CalendarTest do
       {:ok, events: events}
     end
 
-    test "get_events returns all events", %{events: events} do
+    test "returns all events", %{events: events} do
       assert events == Calendar.get_events()
     end
 
-    test "get_events returns events for the given date", %{events: [first, second, _]} do
+    test "returns events for the given date", %{events: [first, second, _]} do
       assert [first, second] == Calendar.get_events(~D[2019-12-26])
     end
 
-    test "get_events returns events for the given date and timezone", %{events: [_, _, third]} do
+    test "returns events for the given date and timezone", %{events: [_, _, third]} do
       assert [third] == Calendar.get_events(~D[2019-12-27], "US/Hawaii")
     end
   end
