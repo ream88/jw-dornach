@@ -24,6 +24,11 @@ defmodule Dornach.Calendar do
     GenServer.call(__MODULE__, {:events, date, zone})
   end
 
+  @spec set_events(Event.t()) :: :ok
+  def set_events(events) do
+    GenServer.call(__MODULE__, {:set_events, events})
+  end
+
   @spec add_event(Event.t(), (Event.t() -> :ok | {:error, any()})) :: :ok
   def add_event(event, callback \\ fn _ -> :ok end) do
     GenServer.call(__MODULE__, {:add, event, callback})
@@ -57,6 +62,11 @@ defmodule Dornach.Calendar do
       end)
 
     {:reply, events, state}
+  end
+
+  @impl true
+  def handle_call({:set_events, events}, _from, %__MODULE__{} = state) do
+    {:reply, :ok, %{state | events: events}}
   end
 
   @impl true
