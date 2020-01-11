@@ -23,7 +23,10 @@ defmodule Dornach.Application do
   def load_events(:test), do: []
 
   def load_events(_) do
-    Dornach.GoogleCalendar.find_events()
+    from = Date.utc_today() |> Timex.beginning_of_month()
+    to = Date.utc_today() |> Date.add(180) |> Timex.end_of_month()
+
+    Dornach.GoogleCalendar.find_events(from, to)
     |> Enum.map(&Dornach.Event.from_google_event/1)
   end
 
