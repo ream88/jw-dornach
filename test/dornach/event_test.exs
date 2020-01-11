@@ -1,5 +1,5 @@
 defmodule Dornach.EventTest do
-  use Dornach.CalendarCase, async: true
+  use Dornach.CalendarCase, async: false
   alias Dornach.{Calendar, Event}
   doctest Event
 
