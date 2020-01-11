@@ -23,8 +23,12 @@ defmodule DornachWeb.PageController do
       Calendar.add_event(event, fn event ->
         # TODO: There is probably a better way to do this, like using bypass.
         case Dornach.Application.env() do
-          :test -> :ok
-          _ -> event |> Event.to_google_event() |> GoogleCalendar.create_event()
+          :test ->
+            :ok
+
+          _ ->
+            event |> Event.to_google_event() |> GoogleCalendar.create_event()
+            :ok
         end
       end)
 
