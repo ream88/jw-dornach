@@ -21,7 +21,7 @@ defmodule Dornach.GoogleCalendar do
     from = from |> Timex.to_datetime() |> Timex.beginning_of_day()
     to = to |> Timex.to_datetime() |> Timex.end_of_day()
 
-    Logger.debug("Looking for Google Calendar events between #{from} and #{to}")
+    Logger.info("Looking for Google Calendar events between #{from} and #{to}")
 
     {:ok, events} =
       GoogleApi.Calendar.V3.Api.Events.calendar_events_list(conn(), calendar_id(),
@@ -33,7 +33,7 @@ defmodule Dornach.GoogleCalendar do
   end
 
   def create_event(%GoogleApi.Calendar.V3.Model.Event{} = event) do
-    Logger.debug(
+    Logger.info(
       "Creating Google Calendar event #{inspect(event.summary)} on #{event.start.dateTime}"
     )
 
