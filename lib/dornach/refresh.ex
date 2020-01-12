@@ -35,7 +35,7 @@ defmodule Dornach.Refresh do
   end
 
   defp interval() do
-    case Application.get_env(:dornach, :refresh_interval, 60 * 60 * 1000) do
+    case Application.fetch_env!(:dornach, :refresh_interval) do
       {:system, env_var} -> env_var |> System.get_env() |> String.to_integer()
       interval -> interval
     end
