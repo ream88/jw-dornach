@@ -1,9 +1,11 @@
-const path = require('path')
 const glob = require('glob')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const FileManagerPlugin = require('filemanager-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = (env, options) => ({
   optimization: {
@@ -36,6 +38,33 @@ module.exports = (env, options) => ({
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: '../css/app.css' }),
-    new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
+    new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
+    new FaviconsWebpackPlugin({
+      logo: './static/images/logo.png',
+      cache: true,
+      prefix: '../images',
+      favicons: {
+        icons: {
+          android: false,
+          appleIcon: false,
+          appleStartup: false,
+          coast: false,
+          favicons: true,
+          firefox: false,
+          windows: false,
+          yandex: false
+        }
+      }
+    }),
+    new FileManagerPlugin({
+      onEnd: {
+        move: [
+          {
+            source: path.join(__dirname, '../priv/static/images/favicon.ico'),
+            destination: path.join(__dirname, '../priv/static/favicon.ico')
+          }
+        ]
+      }
+    })
   ]
 })
