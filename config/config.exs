@@ -30,7 +30,9 @@ config :dornach, :strftime,
   abbreviated_day_of_week_names: &NimbleStrftime.German.abbreviated_day_of_week_names/1,
   month_names: &NimbleStrftime.German.month_names/1
 
-config :dornach, google_calendar_id: {:system, "GOOGLE_CALENDAR_ID"}
+config :dornach,
+  google_calendar_id: {:system, "GOOGLE_CALENDAR_ID"},
+  refresh_interval: 60 * 60 * 1000
 
 config :goth, json: {:system, "GOOGLE_APPLICATION_CREDENTIALS"}
 
