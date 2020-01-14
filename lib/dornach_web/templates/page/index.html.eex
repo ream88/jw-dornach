@@ -79,15 +79,6 @@
             <%= event.title %>
           </div>
 
-          <div class="column is-narrow">
-            <a class="button is-danger is-small" href="/">
-              <span class="icon">
-                <i class="fas fa-times"></i>
-              </span>
-              <span>Löschen</span>
-            </a>
-          </div>
-
         </div>
       <% end %>
     <% end %>
