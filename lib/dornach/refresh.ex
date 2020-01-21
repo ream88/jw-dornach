@@ -10,28 +10,38 @@ defmodule Dornach.Refresh do
 
   use GenServer
 
-  def start_link(callback) do
-    GenServer.start(__MODULE__, callback, name: __MODULE__)
+  def start_link(callback, interval \\ interval()) do
+    GenServer.start(__MODULE__, {callback, interval}, name: __MODULE__)
+  end
+
+  def refresh() do
+    GenServer.call(__MODULE__, :manual)
   end
 
   # GenServer API
 
   @impl true
-  def init(callback) do
-    {:ok, callback, {:continue, :initial}}
+  def init({callback, interval}) do
+    {:ok, {callback, interval}, {:continue, :initial}}
   end
 
   @impl true
-  def handle_continue(:initial, callback) do
+  def handle_continue(:initial, {callback, interval}) do
     send(self(), :periodic)
-    {:noreply, callback}
+    {:noreply, {callback, interval}}
   end
 
   @impl true
-  def handle_info(:periodic, callback) do
+  def handle_call(:manual, _, {callback, interval}) do
     callback.()
-    Process.send_after(self(), :periodic, interval())
-    {:noreply, callback}
+    {:reply, :ok, {callback, interval}}
+  end
+
+  @impl true
+  def handle_info(:periodic, {callback, interval}) do
+    callback.()
+    Process.send_after(self(), :periodic, interval)
+    {:noreply, {callback, interval}}
   end
 
   defp interval() do
