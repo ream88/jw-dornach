@@ -24,7 +24,7 @@ defmodule Dornach.Calendar do
     GenServer.call(__MODULE__, {:events, date, zone})
   end
 
-  @spec set_events(Event.t()) :: :ok
+  @spec set_events([Event.t()]) :: :ok
   def set_events(events) do
     GenServer.call(__MODULE__, {:set_events, events})
   end

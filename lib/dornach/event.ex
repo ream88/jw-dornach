@@ -84,7 +84,7 @@ defmodule Dornach.Event do
     }
   end
 
-  @spec to_google_event(Dornach.Event.t()) :: GoogleEvent.t()
+  @spec to_google_event(t()) :: GoogleDateTime.t()
   def to_google_event(%__MODULE__{} = event) do
     %GoogleEvent{
       summary: event.title,
