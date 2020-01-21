@@ -22,7 +22,7 @@ defmodule DornachWeb.PageController do
 
       Calendar.add_event(event, fn event ->
         # TODO: There is probably a better way to do this, like using bypass.
-        case Dornach.Application.env() do
+        case Application.fetch_env!(:dornach, :env) do
           :test ->
             :ok
 

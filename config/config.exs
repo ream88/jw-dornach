@@ -31,6 +31,7 @@ config :dornach, :strftime,
   month_names: &NimbleStrftime.German.month_names/1
 
 config :dornach,
+  env: Mix.env(),
   google_calendar_id: {:system, "GOOGLE_CALENDAR_ID"},
   refresh_interval: 60 * 60 * 1000
 

@@ -5,15 +5,10 @@ defmodule Dornach.Application do
 
   use Application
 
-  # Embed Mix.env into compiled app.
-  @env Mix.env()
-
-  def env(), do: @env
-
   def start(_type, _args) do
     children = [
       Dornach.Calendar,
-      {Dornach.Refresh, load_events(env())},
+      {Dornach.Refresh, load_events(Application.fetch_env!(:dornach, :env))},
       DornachWeb.Endpoint
     ]
 
