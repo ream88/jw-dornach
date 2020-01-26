@@ -53,8 +53,9 @@ defmodule Dornach.MixProject do
       {:tzdata, "~> 1.0.1"},
 
       # Development
-      {:credo, "~> 1.1.0", only: [:dev], runtime: false},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:credo, "~> 1.1.0", only: :dev, runtime: false},
+      {:dialyxir, "~> 0.5", only: :dev, runtime: false},
+      {:sobelow, "~> 0.8", only: :dev},
 
       # Testing
       {:floki, "~> 0.24.0", only: [:dev, :test]}
