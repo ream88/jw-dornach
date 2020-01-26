@@ -18,7 +18,7 @@ defmodule Dornach.Refresh do
   end
 
   @spec refresh :: :ok
-  def refresh() do
+  def refresh do
     GenServer.call(__MODULE__, :manual)
   end
 
@@ -53,7 +53,7 @@ defmodule Dornach.Refresh do
   end
 
   @spec interval :: integer()
-  defp interval() do
+  defp interval do
     case Application.fetch_env!(:dornach, :refresh_interval) do
       {:system, env_var} -> env_var |> System.get_env() |> String.to_integer()
       interval -> interval

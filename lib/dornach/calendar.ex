@@ -14,8 +14,8 @@ defmodule Dornach.Calendar do
     GenServer.start_link(__MODULE__, events, name: __MODULE__)
   end
 
-  @spec get_events() :: [Event.t()]
-  def get_events() do
+  @spec get_events :: [Event.t()]
+  def get_events do
     GenServer.call(__MODULE__, :events)
   end
 

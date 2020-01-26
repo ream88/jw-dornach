@@ -5,7 +5,7 @@ defmodule Dornach.GoogleCalendar do
 
   require Logger
 
-  def find_events() do
+  def find_events do
     now = Date.utc_today()
     from = now |> Timex.beginning_of_month()
     to = now |> Timex.end_of_month()
@@ -43,12 +43,12 @@ defmodule Dornach.GoogleCalendar do
     event
   end
 
-  defp conn() do
+  defp conn do
     {:ok, %{token: token}} = Goth.Token.for_scope("https://www.googleapis.com/auth/calendar")
     GoogleApi.Calendar.V3.Connection.new(token)
   end
 
-  defp calendar_id() do
+  defp calendar_id do
     case Application.fetch_env!(:dornach, :google_calendar_id) do
       {:system, env_var} -> System.get_env(env_var)
       calendar_id -> calendar_id
