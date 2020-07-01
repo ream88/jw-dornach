@@ -18,10 +18,10 @@ congregation of Jehovah's Witnesses.
 
 ## Configuration
 
-| ENV                              | Description                                                                                                                  |
-|----------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| `GOOGLE_APPLICATION_CREDENTIALS` | The contents of the JSON key file obtained above.                                                                            |
-| `GOOGLE_CALENDAR_ID`             | The ID of the Google Calendar which will work as the database.<br>Eg: `abcdefghijklmnopqrstuvwxyz@group.calendar.google.com` |
+| ENV                              | Description                                                                                                                |
+|----------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `GOOGLE_APPLICATION_CREDENTIALS` | The contents of the JSON key file obtained above, e.g. `export GOOGLE_APPLICATION_CREDENTIALS=$(cat jw-dornach-*.json)`    |
+| `GOOGLE_CALENDAR_ID`             | The ID of the Google Calendar which will work as the database, e.g. `abcdefghijklmnopqrstuvwxyz@group.calendar.google.com` |
 
 ## License
 
