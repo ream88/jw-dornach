@@ -109,9 +109,9 @@ defmodule DornachWeb.PageView do
       |> Enum.map(&DateTime.to_date/1)
 
     cond do
-      date in events -> "is-primary"
-      date == Date.utc_today() -> "is-light"
-      true -> "is-white"
+      date in events -> "bg-indigo-600 text-white"
+      date == Date.utc_today() -> "bg-indigo-100"
+      true -> ""
     end
   end
 end

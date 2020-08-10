@@ -13,63 +13,69 @@
     <link rel="icon" type="image/png" sizes="16x16" href="<%= Routes.static_path(@conn, "/images/favicon-16x16.png") %>" />
     <link rel="icon" type="image/png" sizes="32x32" href="<%= Routes.static_path(@conn, "/images/favicon-32x32.png") %>" />
     <link rel="icon" type="image/png" sizes="48x48" href="<%= Routes.static_path(@conn, "/images/favicon-48x48.png") %>" />
-
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
 
-  <body>
-    <header class="hero is-info">
-      <div class="hero-body">
-        <div class="container">
-          <a href="/">
-            <h1 class="title">
-              JW Dornach
-            </h1>
-            <h2 class="subtitle">
-              Trolleydienst Einteilung
-            </h2>
+  <body class="text-gray-900">
+    <header class="bg-indigo-500">
+      <div class="container px-6 py-12 mx-auto sm:px-2">
+        <div>
+          <a href="/" class="text-white">
+            <h1 class="ml-1 text-4xl font-semibold tracking-tight">JW Dornach</h1>
           </a>
+
+          <h2 class="text-white">Trolleydienst Einteilung</h2>
         </div>
       </div>
     </header>
 
-    <main class="section calendar">
-      <div class="container box calendar">
-        <%= render @view_module, @view_template, assigns %>
-      </div>
-    </main>
+    <div class="overflow-auto bg-gray-100">
+      <main class="sm:my-6">
+        <div class="container pb-2 mx-auto">
+          <%= render @view_module, @view_template, assigns %>
+        </div>
+      </main>
 
-    <section class="section">
-      <div class="container">
-        <div class="columns">
-          <div class="column is-two-thirds content">
-            <h2 class="title">Anleitung</h2>
-            <p>
-              Um einen Termin einzutragen, wähle bitte zuerst einen Tag im
-              Kalendar aus. Trage dann deinen Namen und den Namen deines Partners
-              ein, und wähle die Uhrzeit aus von wann bis wann du den
-              Trolleydienst geplant hast. Mit einem Klick auf <strong>Termin
-                eintragen</strong> wird deine Eingabe dann gespeichert.
-            </p>
+      <section class="my-6">
+        <div class="container p-4 mx-auto -my-2 sm:px-2">
+          <h3 class="mb-1 text-xl text-gray-600">Anleitung</h3>
+          <p>
+            Um einen Termin einzutragen, wähle bitte zuerst einen Tag im
+            Kalendar aus. Trage dann deinen Namen und den Namen deines Partners
+            ein, und wähle die Uhrzeit aus von wann bis wann du den
+            Trolleydienst geplant hast. Mit einem Klick auf <strong>Termin
+              eintragen</strong> wird deine Eingabe dann gespeichert.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer class="bg-white">
+      <div class="container mx-auto overflow-hidden">
+        <nav class="flex flex-wrap justify-center px-4 my-6 sm:px-2">
+          <div class="px-4">
+            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+              Impressum
+            </a>
           </div>
+          <div class="px-4">
+            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+              Datenschutzerklärung
+            </a>
+          </div>
+          <div class="px-4">
+            <a href="https://github.com/ream88/jw-dornach" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+              Source Code
+            </a>
+          </div>
+        </nav>
+        <div class="p-4 my-4 sm:p-2">
+          <p class="text-base leading-6 text-gray-500 sm:text-center ">
+            JW Dornach ist eine private Plattform für die Planung
+            des Trolleydienstes der Versammlung Linz-Dornach und in keiner Weise
+            mit jw.org verbunden.
+          </p>
         </div>
       </div>
-    </section>
-
-    <footer class="footer">
-      <div class="content has-text-centered is-small">
-        <p>
-          <strong>JW Dornach</strong> ist eine private Plattform für die Planung
-          des Trolleydienstes der Versammlung Linz-Dornach und in keiner Weise
-          mit jw.org verbunden.
-        </p>
-      </div>
-      <nav class="breadcrumb is-centered is-small has-bullet-separator">
-        <ul>
-          <li><a href="#">Impressum</a></li>
-          <li><a href="#">Datenschutzerklärung</a></li>
-        </ul>
-      </nav>
     </footer>
 
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
