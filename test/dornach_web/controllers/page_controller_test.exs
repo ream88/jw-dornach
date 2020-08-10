@@ -20,10 +20,10 @@ defmodule DornachWeb.PageControllerTest do
     conn = get(conn, "/2020-01-02")
 
     {:ok, html} = Floki.parse_document(conn.resp_body)
-    button = Floki.find(html, ".calendar a.button[href='/2020-01-02']")
+    button = Floki.find(html, "a[href='/2020-01-02']")
 
     assert Enum.count(button) == 1
-    assert has_class?(button, "has-border")
+    assert has_class?(button, "bg-indigo-300")
   end
 
   test "POST /2020-01-02", %{conn: conn} do
@@ -32,9 +32,7 @@ defmodule DornachWeb.PageControllerTest do
     assert html_response(conn, 422) =~ "Bitte überprüfe deine Eingaben!"
 
     {:ok, html} = Floki.parse_document(conn.resp_body)
-
-    assert has_class?(Floki.find(html, "#event_title"), "is-danger")
-    assert has_class?(Floki.find(html, ".select"), "is-danger")
+    assert has_class?(Floki.find(html, "#event_title"), "bg-red-100")
   end
 
   test "POST /2020-01-02 with valid params", %{conn: conn} do
@@ -53,9 +51,9 @@ defmodule DornachWeb.PageControllerTest do
     assert html_response(conn, 200) =~ "Dein Termin wurde eingetragen!"
 
     {:ok, html} = Floki.parse_document(conn.resp_body)
-    button = Floki.find(html, ".calendar a.button[href='/2020-01-02']")
+    button = Floki.find(html, "a[href='/2020-01-02']")
 
     assert Enum.count(button) == 1
-    assert has_class?(button, "is-primary")
+    assert has_class?(button, "bg-indigo-300")
   end
 end
